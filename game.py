@@ -1,5 +1,6 @@
 import sys
 from unittest import case
+import numpy as np
 import init
 import pawn
 import knight
@@ -519,31 +520,36 @@ def check_check(state, w_king, b_king, index, moves, color, check_mate):
 
     return delete
 
-def game(test):
+def game(_input, turn, state, w_rooks, b_rooks, w_king, b_king):
     global CHECKMATE
     global STALEMATE
     global COUNT
     global MAX_COUNT
 
-    [turn, state, w_rooks, b_rooks, w_king, b_king] = init.init()
+    CHECKMATE = False
+    STALEMATE = False
+    COUNT = 0
+
+    #[turn, state, w_rooks, b_rooks, w_king, b_king] = init.init()
 
     moved = False
 
     while not CHECKMATE and not STALEMATE:
-
+        """
         if test == True:
             _input = t.test(turn-1)
         else:
             _input = input()
+        """
 
-        if _input == "z":
-            break
+        #if _input == "z":
+            #break
 
         piece_type, move, rest = coord.SAD_to_move(_input)
         file_indexes = coord.get_file_index(rest)
         rank_indexes = coord.get_rank_index(rest)
 
-        nn_blind_sup.nn((piece_type, move))
+        #nn_blind_sup.nn((piece_type, move))
 
         #print(piece_type, move, rest)
 
@@ -557,8 +563,8 @@ def game(test):
                                     legal_moves, e_p = pawn.get_moves(state, s)
                                     delete = check_check(state, w_king, b_king, s, legal_moves, state[1,s,1],False)
 
-                                    print(legal_moves)
-                                    print(delete)
+                                    #print(legal_moves)
+                                    #print(delete)
 
                                     for dell in delete:
                                         try:
@@ -995,8 +1001,8 @@ def game(test):
                         legal_moves = w_king.get_moves(state, s)
                         delete = check_check(state, w_king, b_king, s, legal_moves, state[1,s,1], False)
 
-                        print(legal_moves)
-                        print(delete)
+                        #print(legal_moves)
+                        #print(delete)
 
                         for dell in delete:
                             try:
@@ -1004,7 +1010,7 @@ def game(test):
                             except ValueError:
                                 continue
 
-                        print(legal_moves)
+                        #print(legal_moves)
 
                         for m in legal_moves:
                             if (move == "castle short" and m == s + 2 * coord.FILE and not w_rooks[1].moved
@@ -1046,7 +1052,7 @@ def game(test):
 
                                 w_king.castled = True
 
-                                lm, check = check_check(state, w_king, b_king, m, [], 11, True)
+                                l_m, check = check_check(state, w_king, b_king, m, [], 11, True)
 
                                 if not l_m:
                                     if check:
@@ -1204,6 +1210,8 @@ def game(test):
             STALEMATE = True
 
         coord.print_state(state[1, :, :])
+        # print(state.shape)
+        return state
 
         if CHECKMATE:
             if turn % 2 == 0:

@@ -63,7 +63,7 @@ def init():
         elif i == 60:
             state[1, i, :] = [15, 11]
 
-    coord.print_state(state[1, :, :])
+    # coord.print_state(state[1, :, :])
 
     w_rooks = [rook.Rook(), rook.Rook()]
     b_rooks = [rook.Rook(), rook.Rook()]

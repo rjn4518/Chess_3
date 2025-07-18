@@ -1,9 +1,10 @@
 import tensorflow as tf
+import keras
 import numpy as np
 from tensorflow.python.keras.metrics import MeanSquaredError
-
 import coordinates as coord
 import matplotlib.pyplot as plot
+
 
 def nn(_input):
     data = np.zeros(22, 'float32')
@@ -59,24 +60,26 @@ def nn(_input):
 
     _data = tf.convert_to_tensor(data, 'float32')
 
+    test = keras.ops.zeros(22)
+
     #print(data)
 
-    model = tf.keras.models.Sequential()
+    model = keras.models.Sequential()
 
-    model.add(tf.keras.Input(shape=(22,)))
-    model.add(tf.keras.layers.Dense(50, activation="relu", name="layer1"))
-    model.add(tf.keras.layers.Dense(100, activation="relu", name="layer2"))
-    model.add(tf.keras.layers.Dense(50, activation="relu", name="layer3"))
-    model.add(tf.keras.layers.Dense(22, name="output"))
+    model.add(keras.Input(shape=(32,)))
+    model.add(keras.layers.Dense(50, activation="relu", name="layer1"))
+    model.add(keras.layers.Dense(100, activation="relu", name="layer2"))
+    model.add(keras.layers.Dense(50, activation="relu", name="layer3"))
+    model.add(keras.layers.Dense(32, name="output"))
 
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.MeanSquaredError(),
                   metrics=[tf.keras.metrics.MeanSquaredError()])
 
-    probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
+    #probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
 
-    predictions = probability_model.predict(_data)
+    #predictions = probability_model.predict(test)
 
-    print(predictions[0])
+    #print(predictions[0])
 
 

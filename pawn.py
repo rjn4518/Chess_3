@@ -42,6 +42,12 @@ def check_rules(moves, state, index):
             delete.append(index - coord.RANK + coord.FILE)
 
     for move in moves:
+        try:
+            state[1, move, 0]
+        except IndexError:
+            delete.append(move)
+            continue
+
         if state[1, move, 0] != 0:
             if (move == index + coord.RANK or move == index - coord.RANK
                     or move == index - 2 * coord.RANK or move == index + 2 * coord.RANK):
